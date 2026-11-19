@@ -1,5 +1,5 @@
 // Add the URL for your class Cloudflare Worker here when it is provided.
-const WORKER_URL = "";
+const WORKER_URL = "https://bitter-lab-f286loreal-api.kimjose9.workers.dev/";
 const STORAGE_KEY = "loreal-routine-studio-selected-products";
 const SYSTEM_MESSAGE = "You are a careful L'Oréal group beauty routine advisor. Use the user's selected product details and the full conversation to give practical, easy-to-follow guidance. Keep answers limited to the routine, its products, skincare, haircare, makeup, fragrance, and closely related beauty topics. Politely redirect unrelated questions. Do not diagnose or claim to replace a medical professional. Do not claim to have searched the live web unless search results and citations are provided by the server.";
 
