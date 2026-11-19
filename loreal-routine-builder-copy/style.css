@@ -860,7 +860,7 @@ a:focus-visible {
   margin: 0 0 18px;
   padding: 13px 15px;
   border-inline-start: 3px solid var(--gold);
-  background: var(--surface);
+  background: #fffdf8;
   animation: arrive 250ms ease-out both;
 }
 
@@ -869,6 +869,8 @@ a:focus-visible {
 }
 
 .user-message {
+  width: fit-content;
+  max-width: min(680px, 92%);
   margin-inline-start: auto;
   border-inline-start-color: var(--red);
   background: #fff7f8;
@@ -877,15 +879,58 @@ a:focus-visible {
 .message-label {
   display: block;
   margin-bottom: 5px;
-  color: var(--muted);
+  color: var(--green);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-.chat-message p {
-  white-space: pre-wrap;
+.user-message .message-label {
+  color: #a00026;
+}
+
+.message-body {
   overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+.message-body p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.message-body p + p,
+.message-body h3,
+.message-body ul,
+.message-body ol {
+  margin-top: 10px;
+}
+
+.message-body h3 {
+  color: #79500e;
+  font-family: var(--display-font);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.message-body ul,
+.message-body ol {
+  padding-inline-start: 23px;
+}
+
+.message-body li {
+  padding-inline-start: 3px;
+  margin-bottom: 5px;
+}
+
+.message-body li::marker {
+  color: var(--gold);
+}
+
+.message-body strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .citation-link {

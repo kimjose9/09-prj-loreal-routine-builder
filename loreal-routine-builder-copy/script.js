@@ -1,7 +1,7 @@
 // Add the URL for your class Cloudflare Worker here when it is provided.
 const WORKER_URL = "https://bitter-lab-f286loreal-api.kimjose9.workers.dev/";
 const STORAGE_KEY = "loreal-routine-studio-selected-products";
-const SYSTEM_MESSAGE = "You are a careful L'Oréal group beauty routine advisor. Use the user's selected product details and the full conversation to give practical, easy-to-follow guidance. Keep answers limited to the routine, its products, skincare, haircare, makeup, fragrance, and closely related beauty topics. Politely redirect unrelated questions. Do not diagnose or claim to replace a medical professional. Do not claim to have searched the live web unless search results and citations are provided by the server.";
+const SYSTEM_MESSAGE = "You are a warm, upbeat L'Oréal group beauty routine advisor. Help the user feel welcome and confident, celebrate small steps, and keep your tone friendly and positive without overdoing exclamation marks or emojis. Use the user's selected product details and the full conversation to give practical, easy-to-follow guidance. Organize longer answers with short headings and concise bullet lists; use **bold** for product names or key steps. Keep answers limited to the routine, its products, skincare, haircare, makeup, fragrance, and closely related beauty topics. Politely redirect unrelated questions. Do not diagnose or claim to replace a medical professional. Do not claim to have searched the live web unless search results and citations are provided by the server.";
 
 // Find the page controls so the functions below can update them.
 const categoryFilter = document.getElementById("categoryFilter");
@@ -155,16 +155,81 @@ function toggleProduct(productId) {
   displayProducts();
 }
 
-// Add a chat message as text, so replies are never treated as HTML.
+// Add plain text and safe inline bold formatting without treating replies as HTML.
+function appendFormattedText(container, content) {
+  const parts = content.split(/(\*\*[^*]+\*\*)/g);
+
+  parts.forEach((part) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      const strong = document.createElement("strong");
+      strong.textContent = part.slice(2, -2);
+      container.append(strong);
+      return;
+    }
+
+    container.append(document.createTextNode(part));
+  });
+}
+
+// Turn common Markdown headings and lists into readable, semantic elements.
+function formatAssistantReply(container, content) {
+  let currentList = null;
+
+  content.split("\n").forEach((line) => {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) {
+      currentList = null;
+      return;
+    }
+
+    const headingMatch = trimmedLine.match(/^#{1,3}\s+(.+)$/);
+    if (headingMatch) {
+      currentList = null;
+      const heading = document.createElement("h3");
+      appendFormattedText(heading, headingMatch[1]);
+      container.append(heading);
+      return;
+    }
+
+    const listMatch = trimmedLine.match(/^(?:[-*]\s+|\d+\.\s+)(.+)$/);
+    if (listMatch) {
+      const isNumbered = /^\d+\./.test(trimmedLine);
+      const listTag = isNumbered ? "ol" : "ul";
+      if (!currentList || currentList.tagName.toLowerCase() !== listTag) {
+        currentList = document.createElement(listTag);
+        container.append(currentList);
+      }
+
+      const item = document.createElement("li");
+      appendFormattedText(item, listMatch[1]);
+      currentList.append(item);
+      return;
+    }
+
+    currentList = null;
+    const paragraph = document.createElement("p");
+    appendFormattedText(paragraph, trimmedLine);
+    container.append(paragraph);
+  });
+}
+
+// Add each chat message with safe, readable formatting.
 function addChatMessage(role, content, citations = []) {
   chatWindow.querySelector(".chat-empty")?.remove();
   const message = document.createElement("article");
   message.className = `chat-message ${role === "user" ? "user-message" : "assistant-message"}`;
   const label = document.createElement("span");
   label.className = "message-label";
-  label.textContent = role === "user" ? "YOU" : "ROUTINE ADVISOR";
-  const text = document.createElement("p");
-  text.textContent = content;
+  label.textContent = role === "user" ? "YOU" : "YOUR BEAUTY GUIDE";
+  const text = document.createElement("div");
+  text.className = "message-body";
+  if (role === "user") {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = content;
+    text.append(paragraph);
+  } else {
+    formatAssistantReply(text, content);
+  }
   message.append(label, text);
 
   citations.forEach((citation) => {
