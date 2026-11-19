@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f4f0" />
+    <meta name="description" content="Build a personal beauty routine from L'Oréal group brands." />
+    <title>L'Oréal | Routine Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <header class="site-header">
+        <a class="brand-mark" href="#top" aria-label="L'Oréal Routine Studio home">
+          <img src="img/loreal-logo.png" alt="L'Oréal" class="logo" />
+          <span>ROUTINE STUDIO</span>
+        </a>
+        <button id="directionToggle" class="direction-toggle" type="button" aria-pressed="false">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span>عربي / RTL</span>
+        </button>
+      </header>
+
+      <main id="top">
+        <section class="intro" aria-labelledby="pageTitle">
+          <p class="eyebrow"><span></span> YOUR ROUTINE, RECONSIDERED</p>
+          <h1 id="pageTitle">Good care.<br /><em>Made personal.</em></h1>
+          <p class="intro-copy">Explore your favorites across L'Oréal brands, then bring them together into a routine that feels like yours.</p>
+        </section>
+
+        <section class="studio" aria-label="Routine builder">
+          <div class="catalog-column">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">THE EDIT</p>
+                <h2>Find your formulas</h2>
+              </div>
+              <p id="productCount" class="result-count" aria-live="polite"></p>
+            </div>
+
+            <div class="filters">
+              <label class="search-control" for="productSearch">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <span class="visually-hidden">Search products</span>
+                <input id="productSearch" type="search" placeholder="Search by product or brand" autocomplete="off" />
+              </label>
+              <label class="category-control" for="categoryFilter">
+                <span class="visually-hidden">Filter by category</span>
+                <select id="categoryFilter">
+                  <option value="all">All categories</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="productsContainer" class="products-grid" aria-live="polite"></div>
+          </div>
+
+          <aside class="selection-panel" aria-labelledby="selectedTitle">
+            <div class="selection-heading">
+              <div>
+                <p class="eyebrow">YOUR LINE-UP</p>
+                <h2 id="selectedTitle">Selected products <span id="selectedCount">0</span></h2>
+              </div>
+              <button id="clearSelections" class="text-button" type="button" disabled>Clear all</button>
+            </div>
+            <div id="selectedProductsList" class="selected-list"></div>
+            <button id="generateRoutine" class="generate-btn" type="button" disabled>
+              <span>Build my routine</span>
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+            <p class="selection-note">Choose a few products to get started. Your selection stays saved on this device.</p>
+          </aside>
+        </section>
+
+        <section class="chatbox" aria-labelledby="chatTitle">
+          <div class="chat-heading">
+            <div>
+              <p class="eyebrow">A LITTLE EXPERTISE, ON CALL</p>
+              <h2 id="chatTitle">Your routine, in conversation</h2>
+            </div>
+            <span class="online-mark"><span></span> ROUTINE ADVISOR</span>
+          </div>
+          <div id="chatWindow" class="chat-window" role="log" aria-live="polite" aria-relevant="additions text">
+            <p class="chat-empty">Your routine will appear here. Once it’s ready, ask a follow-up about your products or beauty routine.</p>
+          </div>
+          <form id="chatForm" class="chat-form">
+            <label for="userInput" class="visually-hidden">Ask about your routine</label>
+            <input id="userInput" name="userInput" type="text" placeholder="Ask a follow-up about your routine" autocomplete="off" disabled />
+            <button type="submit" id="sendBtn" aria-label="Send message" disabled>
+              <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+            </button>
+          </form>
+          <p class="chat-footnote">For personalized beauty guidance. Always follow product label directions.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>L'ORÉAL ROUTINE STUDIO</span>
+        <span>Beauty, thoughtfully considered.</span>
+      </footer>
+      <div id="statusMessage" class="visually-hidden" role="status" aria-live="polite"></div>
+    </div>
+  </body>
+</html>
